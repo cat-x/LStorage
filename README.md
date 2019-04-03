@@ -42,7 +42,7 @@ dependencies {
 ~~~
 2. 函数调用
 * 包含监听
-~~~
+~~~kotlin
 val tappingEnabled by LStorage.SP.preferenceBoolean(true)
 val content by LStorage.SP.preferenceString(初始数据")
 //你也可以缓存及其监听Int, Long, Float, String, Boolean, StringSet这些类型
@@ -80,6 +80,13 @@ LStorage.SP.delete()
 val data = LStorage("myLStorage")
 data.putString("contentCache", contentCacheEditText2.text.toString())
 ~~~
+
+------
+#### 附加组件
+
+你可以选用
+[SwitchLanguage](https://github.com/cat-x/SwitchLanguage)
+来进行APP语言的切换
 
 ------
 #### 函数列表截图
