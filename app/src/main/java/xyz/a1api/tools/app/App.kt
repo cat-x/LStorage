@@ -4,8 +4,8 @@ import android.app.Application
 import xyz.a1api.tools.LStorage
 
 /**
- * Created by Cat-x on 2019/1/4.
- * For ZQeducation2
+ * Created by Cat-x on 2019/4/1.
+ * For LStorage
  * Cat-x All Rights Reserved
  */
 open class App : Application() {

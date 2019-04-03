@@ -6,6 +6,11 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.a1api.tools.LStorage
 
+/**
+ * Created by Cat-x on 2019/4/1.
+ * For LStorage
+ * Cat-x All Rights Reserved
+ */
 class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -3,8 +3,8 @@ package xyz.a1api.tools.app
 import xyz.a1api.tools.LStorage
 
 /**
- * Created by Cat-x on 2018/8/7.
- * For MangaReadEngine
+ * Created by Cat-x on 2019/4/1.
+ * For LStorage
  * Cat-x All Rights Reserved
  */
 
