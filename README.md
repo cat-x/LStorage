@@ -27,7 +27,7 @@ allprojects {
 In your Application Dir `build.gradle`:
 ```groovy
 dependencies {
-    implementation 'com.github.cat-x:LStorage:0.1'
+    implementation 'com.github.cat-x:LStorage:0.10'
 }
 ```
 ------
