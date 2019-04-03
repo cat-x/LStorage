@@ -4,6 +4,8 @@ buildscript {
     ext.kotlin_version = '1.3.21'
     ext.support_version = '28.0.0'
     ext.version = '0.10'
+    ext.PUBLISH_GROUP_ID = 'com.github.cat-x'
+    ext.PUBLISH_ARTIFACT_ID = 'lstorage'
     repositories {
         google()
         jcenter()
