@@ -1,5 +1,6 @@
 package xyz.a1api.tools
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
@@ -14,7 +15,7 @@ import kotlin.reflect.KProperty
  * For LStorage
  * Cat-x All Rights Reserved
  */
-class LStorage(private val tag: String = TAG) {
+open class LStorage(private val tag: String = TAG) {
     companion object {
         val SP = LStorage()
         private const val TAG = "LStorage"
@@ -105,13 +106,17 @@ class LStorage(private val tag: String = TAG) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun <T> safeGet(key: String, getData: (context: Context) -> T?): T? {
+    private fun <T> safeGet(key: String, readFromDisk: Boolean, getData: (context: Context) -> T?): T? {
         if (TextUtils.isEmpty(key)) {
             Log.e(TAG, "can't get value because key is empty")
         } else {
             val context = mContext.get()
             if (context != null) {
-                return get(key) as T? ?: getData(context)
+                return if (readFromDisk) {
+                    getData(context).also { put(key, it) }
+                } else {
+                    get(key) as T? ?: getData(context).also { put(key, it) }
+                }
             }
         }
         return null
@@ -125,8 +130,8 @@ class LStorage(private val tag: String = TAG) {
     }
 
 
-    fun getString(key: String, defaultValue: String = ""): String {
-        return safeGet(key) {
+    fun getString(key: String, defaultValue: String = "", readFromDisk: Boolean = false): String {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getString(key, defaultValue)
         }!!
     }
@@ -138,8 +143,8 @@ class LStorage(private val tag: String = TAG) {
         return this
     }
 
-    fun getInt(key: String, defaultValue: Int): Int {
-        return safeGet(key) {
+    fun getInt(key: String, defaultValue: Int, readFromDisk: Boolean = false): Int {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getInt(key, defaultValue)
         } ?: defaultValue
     }
@@ -151,8 +156,8 @@ class LStorage(private val tag: String = TAG) {
         return this
     }
 
-    fun getBoolean(key: String, defaultValue: Boolean): Boolean {
-        return safeGet(key) {
+    fun getBoolean(key: String, defaultValue: Boolean, readFromDisk: Boolean = false): Boolean {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getBoolean(key, defaultValue)
         } ?: defaultValue
     }
@@ -165,8 +170,8 @@ class LStorage(private val tag: String = TAG) {
     }
 
 
-    fun getFloat(key: String, defaultValue: Float): Float {
-        return safeGet(key) {
+    fun getFloat(key: String, defaultValue: Float, readFromDisk: Boolean = false): Float {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getFloat(key, defaultValue)
         } ?: defaultValue
     }
@@ -179,8 +184,8 @@ class LStorage(private val tag: String = TAG) {
     }
 
 
-    fun getLong(key: String, defaultValue: Long): Long {
-        return safeGet(key) {
+    fun getLong(key: String, defaultValue: Long, readFromDisk: Boolean = false): Long {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getLong(key, defaultValue)
         } ?: defaultValue
     }
@@ -193,10 +198,18 @@ class LStorage(private val tag: String = TAG) {
     }
 
 
-    fun getStringSet(key: String, defaultValue: Set<String> = setOf()): Set<String> {
-        return safeGet(key) {
+    fun getStringSet(key: String, defaultValue: Set<String> = setOf(), readFromDisk: Boolean = false): Set<String> {
+        return safeGet(key, readFromDisk) {
             it.getSharedPreferences(tag, Context.MODE_PRIVATE).getStringSet(key, defaultValue)
         }!!
+    }
+
+    @SuppressLint("ApplySharedPref")
+    fun commit() {
+        val context = mContext.get()
+        if (context != null) {
+            context.getSharedPreferences(tag, Context.MODE_PRIVATE).edit().commit()
+        }
     }
 
     fun delete(key: String) {

@@ -27,7 +27,7 @@ allprojects {
 In your Application Dir `build.gradle`:
 ```groovy
 dependencies {
-    implementation 'com.github.cat-x:LStorage:0.10'
+    implementation 'com.github.cat-x:LStorage:0.20'
 }
 ```
 ------
@@ -72,6 +72,12 @@ LStorage.SP.putString("contentCache", contentCacheEditText2.text.toString())
 LStorage.SP.getBoolean("contentCacheBoo", false)
  //删除缓存
 LStorage.SP.delete()
+~~~
+
+* 支持深层次读入数据（从0.20开始）
+~~~kotlin
+//只需要将getXXX系列函数中的 参数readFromDisk 设置为 true即可
+LStorage.SP.getString("key","defaultValue",readFromDisk = true)
 ~~~
 
 
